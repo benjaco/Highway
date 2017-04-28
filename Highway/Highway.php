@@ -240,10 +240,7 @@ class Highway
             }
         }
 
-        if (substr($foldername, -1) === "/") {
-            $foldername = rtrim($foldername, "/");
-        }
-
+        $foldername = rtrim($foldername, "/");
 
         $query_patten = self::$prefix_path . $url_path;
 
