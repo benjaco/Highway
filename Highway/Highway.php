@@ -265,7 +265,7 @@ class Highway
             } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/', $sub_path)) {  // matches urls like /folder/subfolder/file.ext /subfolder/file.ext /file.ext
                 $full_file_path = $foldername . $sub_path;
 
-                if (file_exists($full_file_path)) {
+                if (file_exists($full_file_path) && is_file($full_file_path)) {
                     require $full_file_path;
                     self::$route_found = true;
                     return true;
@@ -273,12 +273,12 @@ class Highway
             } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+(\/)?$/', $sub_path)) { // matches urls like /folder/subfolder/ /folder/subfolder /folder
                 $full_file_path = $foldername . rtrim($sub_path, "/");
 
-                if (file_exists($full_file_path . "/index.php")) {
+                if (file_exists($full_file_path . "/index.php") && is_file($full_file_path . "/index.php")) {
                     require $full_file_path . "/index.php";
 
                     self::$route_found = true;
                     return true;
-                } else if (file_exists($full_file_path . "/index.html")) {
+                } else if (file_exists($full_file_path . "/index.html") && is_file($full_file_path . "/index.html")) {
                     require $full_file_path . "/index.html";
 
                     self::$route_found = true;
