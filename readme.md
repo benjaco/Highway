@@ -1,4 +1,4 @@
-# Highway - a fast, simple http router for PHP
+# Highway - a fast, simple, lightweight http router for PHP
 
 This php router is 45 times faster then slim3, but highway are not having advanced stuff like middleware, it's a pure php router
 
