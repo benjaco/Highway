@@ -39,3 +39,7 @@ Highway::not_found(function () {
     echo 404;
 });
 ```
+
+## Collaboration
+
+All issues and pull requests are welcome
