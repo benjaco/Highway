@@ -33,7 +33,27 @@ Highway::group("/user", function () {
     
 });
 
-Highway::serve_folder("/phpfiles", __DIR__ . "/phpfiles/");
+Highway::serve_folder("/phpfiles", __DIR__ . "/phpfiles/"); // ["GET", "POST"] can be passed in as a thrid parameter 
+
+// optional parameter with default value
+function using_function($id = "No parameter"){
+    echo "Route using function ". $id;
+}
+Highway::get("/using_function", "using_function");
+Highway::get("/using_function/{}", "using_function");
+
+
+// using static functions in a class
+// it will autoload the class only if its needed, if you are using a autoloader
+Highway::get("/using_class", "UsingClass::Route");
+Highway::get("/using_class/{}", "UsingClass::Route");
+
+
+// using methods from a instance of a class 
+$classForRoutes = new UsingClass();
+Highway::get("/using_class_init", [$classForRoutes, "AnotherRoute"] );
+Highway::get("/using_class_init/{}", [$classForRoutes, "AnotherRoute"] );
+
 
 Highway::not_found(function () {
     echo 404;

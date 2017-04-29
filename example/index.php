@@ -10,6 +10,9 @@ use Highway\Highway;
 
 include "../Highway/Highway.php";
 
+spl_autoload_register(function ($name) {
+    include "Routes/".$name.".php";
+});
 
 Highway::set_up();
 
@@ -81,12 +84,31 @@ Highway::group("/login", function () {
     });
 });
 
-//Highway::serve_folder("/functions_from_folder", __DIR__ . "/phpfunctions/", ["POST"] );
 Highway::serve_folder("/functions_from_folder", __DIR__ . "/phpfunctions/");
 
 Highway::group("/old", function () {
-    Highway::serve_folder("/phpfiles", __DIR__ . "/phpfunctions/");
+    Highway::serve_folder("/phpfiles", __DIR__ . "/phpfunctions/", ["GET", "POST"]);
 });
+
+
+function using_function($id = "No parameter"){
+    echo "Route using function ". $id;
+}
+Highway::get("/using_function", "using_function");
+Highway::get("/using_function/{}", "using_function");
+
+
+// using static functions in a class
+// it will autoload the class only if its needed, if you are using a autoloader
+Highway::get("/using_class", "UsingClass::Route");
+Highway::get("/using_class/{}", "UsingClass::Route");
+
+
+$classForRoutes = new UsingClass();
+Highway::get("/using_class_init", [$classForRoutes, "AnotherRoute"] );
+Highway::get("/using_class_init/{}", [$classForRoutes, "AnotherRoute"] );
+
+
 
 Highway::not_found(function () {
     echo 404;

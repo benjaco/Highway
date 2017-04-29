@@ -250,12 +250,12 @@ class Highway
             $sub_path = substr(self::$url, strlen($query_patten));
 
             if ($sub_path === false) {
-                if (file_exists($foldername . "/index.php")) {
+                if (file_exists($foldername . "/index.php") && is_file($foldername . "/index.php")) {
                     require $foldername . "/index.php";
 
                     self::$route_found = true;
                     return true;
-                } else if (file_exists($foldername . "/index.html")) {
+                } else if (file_exists($foldername . "/index.html") && is_file($foldername . "/index.html")) {
                     require $foldername . "/index.html";
 
                     self::$route_found = true;
