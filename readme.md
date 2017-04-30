@@ -13,8 +13,8 @@ use Highway\Highway;
 
 include "../Highway/Highway.php";
 
-
-Highway::set_up();
+// setup can be called if you dont want the default parameter, or Highway::$url can be set
+// Highway::set_up(false);
 
 
 Highway::get("/", function () {

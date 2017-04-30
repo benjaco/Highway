@@ -165,7 +165,7 @@ class Highway
     public static function any($patten, $callback)
     {
         if (self::$url === false) {
-            throw new \LogicException("Highway::set_up() must be called before routing");
+            Highway::set_up();
         }
 
         if ($patten == "/" && self::$prefix_path != "") {
@@ -225,7 +225,7 @@ class Highway
         }
 
         if (self::$url === false) {
-            throw new \LogicException("Highway::set_up() must be called before routing");
+            Highway::set_up();
         }
 
         if ($methods !== "ALL") {
@@ -327,10 +327,10 @@ class Highway
      */
     public static function not_found($callback, $set_404_header = true)
     {
-        if ($set_404_header) {
-            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
-        }
         if (!self::$route_found) {
+            if ($set_404_header) {
+                header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
+            }
             $callback();
             return true;
         }
