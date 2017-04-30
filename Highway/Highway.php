@@ -212,7 +212,7 @@ class Highway
     }
 
     /**
-     * Serves both static and php files from a folder, the full path with extension must be provided
+     * Serves ONLY php and html files from a folder, the full path with extension must be provided
      * @param $url_path string Route to access the folder
      * @param $foldername string Path to the folder to serve
      * @param string|array $methods String or array of methods there will execute this route, all methods MUST be in UPPERCASE
@@ -262,7 +262,7 @@ class Highway
                     return true;
                 }
 
-            } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/', $sub_path)) {  // matches urls like /folder/subfolder/file.ext /subfolder/file.ext /file.ext
+            } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+\.(html|php)$/', $sub_path)) {  // matches urls like /folder/subfolder/file.ext /subfolder/file.ext /file.ext
                 $full_file_path = $foldername . $sub_path;
 
                 if (file_exists($full_file_path) && is_file($full_file_path)) {
