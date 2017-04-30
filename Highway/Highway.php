@@ -262,7 +262,7 @@ class Highway
                     return true;
                 }
 
-            } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+\.(html|php)$/', $sub_path)) {  // matches urls like /folder/subfolder/file.ext /subfolder/file.ext /file.ext
+            } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+\.(html|php)$/', $sub_path)) { // matches urls like /folder/subfolder/file.php /subfolder/file.html file.php
                 $full_file_path = $foldername . $sub_path;
 
                 if (file_exists($full_file_path) && is_file($full_file_path)) {
