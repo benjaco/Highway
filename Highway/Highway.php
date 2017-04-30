@@ -322,10 +322,14 @@ class Highway
     /**
      * This method must be the last thing to be called in the file, or in a group
      * @param $callback callable Function to be called if patten matches
+     * @param bool $set_404_header Set a 404 status code by default
      * @return bool Return true if the route has been executed, otherwise false
      */
-    public static function not_found($callback)
+    public static function not_found($callback, $set_404_header = true)
     {
+        if ($set_404_header) {
+            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
+        }
         if (!self::$route_found) {
             $callback();
             return true;
