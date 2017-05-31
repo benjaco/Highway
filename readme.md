@@ -33,8 +33,6 @@ Highway::group("/user", function () {
     
 });
 
-Highway::serve_folder("/phpfiles", __DIR__ . "/phpfiles/"); // ["GET", "POST"] can be passed in as a thrid parameter 
-
 // optional parameter with default value
 function using_function($id = "No parameter"){
     echo "Route using function ". $id;

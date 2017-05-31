@@ -46,6 +46,9 @@ Highway::group("/user", function () {
     Highway::get("/{name}", function () {
         echo "Wellcome " . $_GET['name'];
     });
+    Highway::get("/{name}/group.remove", function () {
+        echo "Remove " . $_GET['name'] . " from a group";
+    });
 
     Highway::get("/{name}/chat", function () {
         echo "Wellcome to chat " . $_GET['name'];
@@ -83,12 +86,6 @@ Highway::group("/login", function () {
             echo "catalog ".$_GET['catalog_name']." image nr ".$_GET['imgnr'];
         });
     });
-});
-
-Highway::serve_folder("/functions_from_folder", __DIR__ . "/phpfunctions/");
-
-Highway::group("/old", function () {
-    Highway::serve_folder("/phpfiles", __DIR__ . "/phpfunctions/", ["GET", "POST"]);
 });
 
 

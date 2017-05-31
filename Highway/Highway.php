@@ -12,7 +12,7 @@ class Highway
      *
      * @var string
      */
-    const VERSION = '1.0';
+    const VERSION = '1.1';
 
     /**
      * @var bool|string
@@ -179,6 +179,7 @@ class Highway
 
         $patten = str_replace("/", '\/', $patten);
         $patten = preg_replace('/{[a-zA-Z0-9-_]*}/', '([^\/]*)', $patten);
+        $patten = str_replace(".", '\.', $patten);
         $patten = "/^" . $patten . "$/";
 
 
@@ -211,88 +212,6 @@ class Highway
 
     }
 
-    /**
-     * Serves ONLY php and html files from a folder, the full path with extension must be provided
-     * @param $url_path string Route to access the folder
-     * @param $foldername string Path to the folder to serve
-     * @param string|array $methods String or array of methods there will execute this route, all methods MUST be in UPPERCASE
-     * @return bool True if route is executed
-     */
-    public static function serve_folder($url_path, $foldername, $methods = "ALL")
-    {
-        if (self::$route_found) {
-            return false;
-        }
-
-        if (self::$url === false) {
-            Highway::set_up();
-        }
-
-        if ($methods !== "ALL") {
-            if (is_string($methods)) {
-                if ($methods !== $_SERVER['REQUEST_METHOD']) {
-                    return false;
-                }
-            } elseif (is_array($methods)) {
-                if (!in_array($_SERVER['REQUEST_METHOD'], $methods)) {
-                    return false;
-                }
-            }
-        }
-
-        $foldername = rtrim($foldername, "/");
-
-        $query_patten = self::$prefix_path . $url_path;
-
-
-        if (substr(self::$url, 0, strlen($query_patten)) === $query_patten) {
-
-            $sub_path = substr(self::$url, strlen($query_patten));
-
-            if ($sub_path === false) {
-                if (file_exists($foldername . "/index.php") && is_file($foldername . "/index.php")) {
-                    require $foldername . "/index.php";
-
-                    self::$route_found = true;
-                    return true;
-                } else if (file_exists($foldername . "/index.html") && is_file($foldername . "/index.html")) {
-                    require $foldername . "/index.html";
-
-                    self::$route_found = true;
-                    return true;
-                }
-
-            } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+\.(html|php)$/', $sub_path)) { // matches urls like /folder/subfolder/file.php /subfolder/file.html file.php
-                $full_file_path = $foldername . $sub_path;
-
-                if (file_exists($full_file_path) && is_file($full_file_path)) {
-                    require $full_file_path;
-                    self::$route_found = true;
-                    return true;
-                }
-            } else if (preg_match('/^(\/[a-zA-Z0-9-_]+)*\/[a-zA-Z0-9-_]+(\/)?$/', $sub_path)) { // matches urls like /folder/subfolder/ /folder/subfolder /folder
-                $full_file_path = $foldername . rtrim($sub_path, "/");
-
-                if (file_exists($full_file_path . "/index.php") && is_file($full_file_path . "/index.php")) {
-                    require $full_file_path . "/index.php";
-
-                    self::$route_found = true;
-                    return true;
-                } else if (file_exists($full_file_path . "/index.html") && is_file($full_file_path . "/index.html")) {
-                    require $full_file_path . "/index.html";
-
-                    self::$route_found = true;
-                    return true;
-                }
-
-            }
-
-        }
-
-        return false;
-
-
-    }
 
     /**
      * Group routes, this can improve performance
