@@ -223,6 +223,7 @@ class Highway
     {
         $check_patten = str_replace("/", '\/', self::$prefix_path . $patten);
         $check_patten = preg_replace('/{[a-zA-Z0-9-_]*}/', '([^\/]*)', $check_patten);
+        $patten = str_replace(".", '\.', $patten);
         $check_patten = "/^" . $check_patten . "/";
 
         if (preg_match($check_patten, self::$url)) {
