@@ -6,11 +6,11 @@
  * Time: 17:10
  */
 
-use Highway\Highway;
+use benjaco\Highway\Highway;
 
-include "../Highway/Highway.php";
-include "../Highway/Parser.php";
-include "../Highway/ParserException.php";
+include "../src/benjaco/Highway/Highway.php";
+include "../src/benjaco/Highway/Parser.php";
+include "../src/benjaco/Highway/ParserException.php";
 
 spl_autoload_register(function ($name) {
     include "Routes/".$name.".php";

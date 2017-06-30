@@ -6,7 +6,7 @@
  * Time: 19:22
  */
 
-namespace Highway;
+namespace benjaco\Highway;
 
 /**
  * Created by PhpStorm.

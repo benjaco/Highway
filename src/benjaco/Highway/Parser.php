@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Highway;
+namespace benjaco\Highway;
 
 class Parser
 {

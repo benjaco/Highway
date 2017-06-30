@@ -1,6 +1,6 @@
 <?php
 
-namespace Highway;
+namespace benjaco\Highway;
 
 /**
  * Routes must be placed in a order where the most general patten is at the bottom

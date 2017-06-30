@@ -6,11 +6,13 @@
  * Time: 17:10
  */
 
-use Highway\Highway;
 
-include "../../Highway/Highway.php";
-include "../../Highway/ParserException.php";
-include "../../Highway/Parser.php";
+use benjaco\Highway\Highway;
+
+include "../../src/benjaco/Highway/Highway.php";
+include "../../src/benjaco/Highway/Parser.php";
+include "../../src/benjaco/Highway/ParserException.php";
+
 
 ob_start();
 $time_start = microtime(true);
