@@ -1,6 +1,6 @@
 # Highway - a fast, simple, lightweight http router for PHP
 
-This php router is 45 times faster then slim3, but highway are not having advanced stuff like middleware, it's a pure php router
+This php router is 25 times faster then slim3, but highway are not having advanced stuff like middleware, it's a pure php router
 
 Its is flexible, ex. it's is possible to add code in the start of a group 
 
@@ -32,6 +32,18 @@ Highway::group("/user", function () {
     });
     
 });
+
+
+// its posible to define a regex the parameter must match, but the regex cant contain capture groups
+Highway::addOption("danish_phone_number", "(?:\+45)?\d{8}");
+Highway::get("/number/{phone:danish_phone_number}", function (){
+    echo "Phone nr: " . $_GET['phone'];
+});
+// int is a standard one there can be used as well
+Highway::get("/testint/{:int}", function ($var) {
+    echo $var;
+});
+
 
 // optional parameter with default value
 function using_function($id = "No parameter"){

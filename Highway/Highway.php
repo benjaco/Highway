@@ -12,7 +12,7 @@ class Highway
      *
      * @var string
      */
-    const VERSION = '1.1';
+    const VERSION = '1.2';
 
     /**
      * @var bool|string
@@ -40,6 +40,25 @@ class Highway
             self::$url = "/";
         }
 
+    }
+
+    /**
+     * Redirect function for the parser
+     * @param $name string Name of the placeholder patten
+     * @param $regexPatten string The regular expression fro the patten, no need for outer grouping
+     */
+    public static function addOption($name, $regexPatten)
+    {
+        Parser::addOption($name, $regexPatten);
+    }
+
+    /**
+     * Redirect function for the parser
+     * @return array Return all the available options
+     */
+    public static function getOptions()
+    {
+        return Parser::getOptions();
     }
 
     /**
@@ -174,42 +193,13 @@ class Highway
             $patten = self::$prefix_path . $patten;
         }
 
-        preg_match_all('/{[a-zA-Z0-9-_]*}/', $patten, $parameter_names);
-        $parameter_names = $parameter_names[0];
-
-        $patten = str_replace("/", '\/', $patten);
-        $patten = preg_replace('/{[a-zA-Z0-9-_]*}/', '([^\/]*)', $patten);
-        $patten = str_replace(".", '\.', $patten);
-        $patten = "/^" . $patten . "$/";
-
-
-        if (preg_match_all($patten, self::$url, $parameter_values)) {
-
-            // remove the first item, the first item is a match of the overall patten (the full sting, same as self::$url)
-            array_shift($parameter_values);
-            // the output from preg_match_all is nested
-            $parameter_values = array_map(function ($value) {
-                return $value[0];
-            }, $parameter_values);
-
-
-            foreach ($parameter_names as $parameter_index => $parameter_name) {
-                // $parameter_name has {} before and after its self
-                $plain_parameter_name = trim($parameter_name, "{}");
-                // a developer can parse in {} if he dont cate about the output, or use the parameter method, so check for empty
-                if ($plain_parameter_name != "") {
-                    $_GET[$plain_parameter_name] = $parameter_values[$parameter_index];
-                }
-            }
-
+        if (Parser::checkPatten($patten, self::$url, $callback)) {
             self::$route_found = true;
 
-            call_user_func_array($callback, $parameter_values);
             return true;
+        }else{
+            return false;
         }
-
-        return false;
-
     }
 
 
@@ -221,12 +211,7 @@ class Highway
      */
     public static function group($patten, $callback)
     {
-        $check_patten = str_replace("/", '\/', self::$prefix_path . $patten);
-        $check_patten = preg_replace('/{[a-zA-Z0-9-_]*}/', '([^\/]*)', $check_patten);
-        $patten = str_replace(".", '\.', $patten);
-        $check_patten = "/^" . $check_patten . "/";
-
-        if (preg_match($check_patten, self::$url)) {
+        if(Parser::matchGroup(self::$prefix_path . $patten, self::$url)){
             $original_prefix = self::$prefix_path;
             self::$prefix_path .= $patten;
 
@@ -248,6 +233,7 @@ class Highway
     public static function not_found($callback, $set_404_header = true)
     {
         if (!self::$route_found) {
+            self::$route_found = true;
             if ($set_404_header) {
                 header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
             }

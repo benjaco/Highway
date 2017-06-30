@@ -9,6 +9,8 @@
 use Highway\Highway;
 
 include "../../Highway/Highway.php";
+include "../../Highway/ParserException.php";
+include "../../Highway/Parser.php";
 
 ob_start();
 $time_start = microtime(true);

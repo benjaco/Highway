@@ -9,6 +9,8 @@
 use Highway\Highway;
 
 include "../Highway/Highway.php";
+include "../Highway/Parser.php";
+include "../Highway/ParserException.php";
 
 spl_autoload_register(function ($name) {
     include "Routes/".$name.".php";
@@ -17,6 +19,7 @@ spl_autoload_register(function ($name) {
 // setup can be called if you dont want the default parameter, or Highway::$url can be set
 //Highway::set_up();
 
+Highway::addOption("danish_phone_number", "(?:\+45)?\d{8}");
 
 Highway::get("/", function () {
     ?>
@@ -41,6 +44,10 @@ Highway::get("/testvar/{}", function ($var) {
     echo $var;
 });
 
+Highway::get("/testint/{:int}", function ($var) {
+    echo $var;
+});
+
 Highway::group("/user", function () {
 
     Highway::get("/{name}", function () {
@@ -55,6 +62,19 @@ Highway::group("/user", function () {
     });
     Highway::get("/{name}/chat/{friend}", function () {
         echo "Wellcome " . $_GET['name'] . " chats with ".$_GET['friend'];
+    });
+
+    Highway::group("/phone/{phone:danish_phone_number}", function () {
+        Highway::get("/newnumber/{new_phone:danish_phone_number}", function (){
+            var_dump($_GET, func_get_args());
+            echo "Phone nr: " . $_GET['phone'] . " - new: ". $_GET['phone'];
+        });
+    });
+
+    Highway::addOption("color", "(?:(?:\#[a-fA-F0-9]{6})|(?:\#[a-fA-F0-9]{3})|(?:rgb\(\d{1,3},(?: )?\d{1,3},(?: )?\d{1,3}\)))");
+
+    Highway::get("/setcolor/{:color}/{}", function ($color, $action) {
+        var_dump($color,$action);
     });
 
     Highway::not_found(function () {
@@ -87,6 +107,7 @@ Highway::group("/login", function () {
         });
     });
 });
+
 
 
 function using_function($id = "No parameter"){

@@ -28,24 +28,27 @@ $highway = [
 ];
 
 $prefix = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF'])."/";
+function test($urls, $numberOfTimes){
+    global $prefix;
+    $totaltime = 0;
 
-if (isset($_GET['highway'])) {
-    $urls = $highway;
-}else if(isset($_GET['slim'])) {
-    $urls = $slim;
-}else{
-    echo "?highway or ?slim must be specified";
-    die();
-}
-
-$totaltime = 0;
-
-for ($i = 0; $i < 10; $i++) {
-    foreach ($urls as $url) {
-        $time = file_get_contents( $prefix . $url);
-        $time = floatval($time);
-        $totaltime += $time;
+    for ($i = 0; $i < $numberOfTimes; $i++) {
+        foreach ($urls as $url) {
+            $time = file_get_contents( $prefix . $url);
+            $time = floatval($time);
+            $totaltime += $time;
+        }
     }
+
+    return $totaltime;
 }
 
-echo $totaltime;
+$slimtime = test($slim, 10);
+sleep(2);
+$highwaytime = test($highway, 10);
+
+echo "Highway: {$highwaytime}, Slim: {$slimtime} <br> ";
+
+
+$x_diff = number_format($slimtime/$highwaytime, 2);
+echo "Highway is {$x_diff}x times faster then slim";
