@@ -4,7 +4,7 @@ This php router is 25 times faster then slim3, but highway are not having advanc
 
 Its is flexible, ex. it's is possible to add code in the start of a group 
 
-A part of the speed reason is, this router is not collecting all routes before its run, is running as soon the route is defined, and if the url is not matching a specific group, then the groups callback won't be randed 
+A part of the speed reason is, this router is not collecting all routes before its run, is running as soon the route is defined, and if the url is not matching a specific group, then the groups callback won't be executed 
 
 ## Usage
 
