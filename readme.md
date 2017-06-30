@@ -6,12 +6,25 @@ Its is flexible, ex. it's is possible to add code in the start of a group
 
 A part of the speed reason is, this router is not collecting all routes before its run, is running as soon the route is defined, and if the url is not matching a specific group, then the groups callback won't be executed 
 
+## Installing
+
+Install using Composer.
+
+```json
+{
+    "require": {
+        "alexgarrett/violin": "2.*"
+    }
+}
+```
+
 ## Usage
 
 ```php
-use Highway\Highway;
+include "vendor/autoload.php";
 
-include "../Highway/Highway.php";
+use \benjaco\Highway\Highway;
+
 
 // setup can be called if you dont want the default parameter, or Highway::$url can be set
 // Highway::set_up(false);
