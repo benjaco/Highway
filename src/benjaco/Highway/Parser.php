@@ -110,10 +110,9 @@ class Parser
     /**
      * @param $route string The route
      * @param $url string The url
-     * @param $callback callable Function to be called if the url matches the patten
-     * @return bool Was the route matched and was the callback executed
+     * @return array 1st item is true if its matching, if it does, second param will be an array of parameters for the callback
      */
-    public static function checkPatten($route, $url, $callback)
+    public static function checkPatten($route, $url)
     {
         list($patten, $parameter_names) = self::parse($route, false);
 
@@ -145,11 +144,9 @@ class Parser
             }
 
 
-            call_user_func_array($callback, $callbackArgs);
-
-            return true;
+            return [true, $callbackArgs];
         }
-        return false;
+        return [false];
     }
 
     public static function matchGroup($groupRoute, $url)

@@ -193,13 +193,16 @@ class Highway
             $patten = self::$prefix_path . $patten;
         }
 
-        if (Parser::checkPatten($patten, self::$url, $callback)) {
+        $checkPatten = Parser::checkPatten($patten, self::$url);
+        if ($checkPatten[0]) {
             self::$route_found = true;
 
+            call_user_func_array($callback, $checkPatten[1]);
+
             return true;
-        }else{
-            return false;
+
         }
+        return false;
     }
 
 
