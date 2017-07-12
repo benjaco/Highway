@@ -12,7 +12,7 @@ class Highway
      *
      * @var string
      */
-    const VERSION = '1.2';
+    const VERSION = '1.2.1';
 
     /**
      * @var bool|string
